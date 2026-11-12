@@ -1,21 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <!-- Grundlegende Zeichencodierung und responsive Darstellung -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Browser-Titel und kurze Beschreibung der Seite -->
     <title>Enrico Fusaro // Portfolio</title>
     <meta name="description" content="Enrico Fusaro — designer and developer." />
+
+    <!-- Zentrale Stylesheet-Datei -->
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
+    <!-- Hauptcontainer: hält Hintergrund, Partikel und Inhalt zusammen -->
     <main class="page-shell">
+      <!-- Wird per JavaScript mit zufälligen Partikeln gefüllt -->
+      <div class="particles" aria-hidden="true">
+      </div>
+
+      <!-- Zentraler sichtbarer Bereich der Startseite -->
       <section class="name-section" aria-labelledby="page-title">
+        <!-- Name und visueller Glitch-Titel -->
         <div class="hero-copy">
           <h1 id="page-title">
+            <!-- data-default wird von den Glitch-Pseudoelementen verwendet -->
             <span class="name_text" data-default="Enrico Fusaro" data-alt="EnricoFusaro">Enrico Fusaro</span>
           </h1>
         </div>
 
+        <!-- Statische Portfolio-Kategorien ohne Link-Funktion -->
         <div class="game-menu" aria-label="Portfolio categories">
           <span class="menu-link">
             <span class="menu-link__text">About Me</span>

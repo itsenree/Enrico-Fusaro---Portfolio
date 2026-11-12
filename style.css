@@ -1,3 +1,4 @@
+/* Farbpalette der Seite: Schwarz als Basis, Neonfarben für Akzente */
 :root {
   --black: #050505;
 
@@ -11,10 +12,13 @@
   --graypurple: #DAD3E4;
 }
 
+/* Berechnete Breiten und Höhen schließen Padding und Border ein */
 * { box-sizing: border-box; }
 
+/* Sanftes Scroll-Verhalten für spätere Inhaltsbereiche */
 html { scroll-behavior: smooth; }
 
+/* Globale Grundeinstellungen für die Seite */
 body {
   margin: 0;
   background: var(--black);
@@ -22,13 +26,61 @@ body {
   font-family: "Courier New", Courier, monospace;
 }
 
+/* Vollbild-Container mit schwarzem Hintergrund */
 .page-shell {
+  position: relative;
   min-height: 100vh;
   overflow: hidden;
   background: var(--black);
 }
 
+/* Unsichtbarer Bereich, in den JavaScript die Partikel einfügt */
+.particles {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* Gemeinsame Form und Animation für alle Partikel */
+.particle {
+  position: absolute;
+  bottom: -1rem;
+  left: var(--x);
+  width: var(--size);
+  height: var(--size);
+  border-radius: 50%;
+  animation: float-particle var(--duration) linear var(--delay) infinite;
+  opacity: var(--opacity);
+}
+
+/* Farbe und Leuchteffekt der einzelnen Partikelfarben */
+.particle[data-color="pink"] { background: var(--pink); box-shadow: 0 0 0.8rem var(--pink); }
+.particle[data-color="cyan"] { background: var(--cyan); box-shadow: 0 0 0.8rem var(--cyan); }
+.particle[data-color="yellow"] { background: var(--yellow); box-shadow: 0 0 0.8rem var(--yellow); }
+.particle[data-color="purple"] { background: var(--purple); box-shadow: 0 0 0.8rem var(--purple); }
+.particle[data-color="violet"] { background: var(--violet); box-shadow: 0 0 0.8rem var(--violet); }
+
+/* Partikel bewegen sich von unten nach oben durch den Bildschirm */
+@keyframes float-particle {
+  0% { transform: translate3d(var(--parallax-x, 0px), 0, 0); }
+  100% { transform: translate3d(var(--parallax-x, 0px), -115vh, 0); }
+}
+
+/* Animationen pausieren, wenn der Nutzer reduzierte Bewegung bevorzugt */
+@media (prefers-reduced-motion: reduce) {
+  .particle,
+  .name_text,
+  .name_text::before,
+  .name_text::after {
+    animation-play-state: paused;
+  }
+}
+
+/* Zentrierter, voller Startbereich */
 .name-section {
+  position: relative;
+  z-index: 1;
   display: grid;
   min-height: 100vh;
   place-items: center;
@@ -38,10 +90,14 @@ body {
   text-align: center;
 }
 
+/* Standardabstand der Überschrift entfernen */
 .hero-copy h1 { margin: 0; }
 
+/* Hauptname: graue Schrift mit Neon-Schatten und Glitch-Animation */
 .name_text {
   position: relative;
+  z-index: 0;
+  isolation: isolate;
   display: block;
   color: var(--graypurple);
   font-family: Arial, Helvetica, sans-serif;
@@ -50,14 +106,14 @@ body {
   letter-spacing: -0.1em;
   line-height: 0.8;
   text-transform: uppercase;
-  text-shadow: 0.04em 0.04em 0 var(--pink);
-  animation: name-glitch 4s steps(1, end) infinite;
 }
 
+/* Farbige Glitch-Kopien des Namens */
 .name_text::before,
 .name_text::after {
   position: absolute;
   inset: 0;
+  z-index: -1;
   pointer-events: none;
   content: attr(data-default);
   color: var(--cyan);
@@ -68,6 +124,7 @@ body {
   opacity: 0;
 }
 
+/* Pinke und gelbe Glitch-Animationen getrennt takten */
 .name_text::before {
   color: var(--pink);
   animation: glitch-pink 3s steps(1, end) infinite;
@@ -78,25 +135,23 @@ body {
   animation: glitch-yellow 2.5s steps(1, end) infinite;
 }
 
-@keyframes name-glitch {
-  0%, 88%, 100% { text-shadow: 0.04em 0.04em 0 var(--pink); }
-  89% { text-shadow: -0.02em 0 var(--cyan), 0.05em 0.04em 0 var(--pink); }
-  91% { text-shadow: 0.02em 0.02em 0 var(--yellow), -0.04em 0 var(--cyan); }
-  93% { text-shadow: 0.04em 0.04em 0 var(--pink); }
-}
-
+/* Verschiebt die pinke Kopie kurz horizontal */
 @keyframes glitch-pink {
-  0%, 86%, 100% { opacity: 0; transform: translate(0); }
-  88% { opacity: 0.7; transform: translate(-0.04em, 0.01em); }
-  90% { opacity: 0; transform: translate(0.06em, 0); }
-}
-
-@keyframes glitch-yellow {
   0%, 78%, 100% { opacity: 0; transform: translate(0); }
-  80% { opacity: 0.7; transform: translate(0.04em, -0.01em); }
-  82% { opacity: 0; transform: translate(-0.03em, 0); }
+  80% { opacity: 0.65; transform: translate(-0.05em, 0.03em); }
+  83% { opacity: 0.35; transform: translate(0.04em, -0.03em); }
+  86% { opacity: 0; transform: translate(0.02em, 0.01em); }
 }
 
+/* Verschiebt die gelbe Kopie kurz horizontal */
+@keyframes glitch-yellow {
+  0%, 68%, 100% { opacity: 0; transform: translate(0); }
+  70% { opacity: 0.55; transform: translate(0.05em, -0.04em); }
+  73% { opacity: 0.3; transform: translate(-0.04em, 0.03em); }
+  76% { opacity: 0; transform: translate(-0.02em, -0.01em); }
+}
+
+/* Optionaler Untertitel unter dem Namen */
 .hero-subtitle {
   margin: 1.5rem 0 0;
   color: var(--lightViolet);
@@ -105,6 +160,7 @@ body {
   text-transform: uppercase;
 }
 
+/* Menübereich mit den Portfolio-Kategorien */
 .game-menu {
   display: grid;
   width: min(100%, 18rem);
@@ -112,6 +168,7 @@ body {
   text-align: center;
 }
 
+/* Einzelne Kategorie als statischer Text */
 .menu-link {
   display: block;
   padding: 0.2rem 0;
@@ -122,15 +179,18 @@ body {
   transition: color 180ms ease, letter-spacing 180ms ease;
 }
 
+/* Pinker Hover-Effekt für alle Kategorien */
 .menu-link:hover {
   color: var(--pink);
   letter-spacing: 0.32em;
 }
 
+/* Die zweite Regel hält den Pink-Effekt auch für Projects explizit fest */
 .menu-link:nth-child(2):hover {
   color: var(--pink);
 }
 
+/* Auf kleineren Bildschirmen wird der Abstand kompakter */
 @media (max-width: 700px) {
   .name-section { gap: 3rem; }
 }
